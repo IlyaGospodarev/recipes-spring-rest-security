@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":Recipes-task-build-lombok-effective-config:test" external.linked.project.path="$MODULE_DIR$/../../../../../../../Recipes/task/build/lombok/effective-config" external.root.project.path="$MODULE_DIR$/../../../../../../.." external.system.id="GRADLE" external.system.module.group="Recipes" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":util:main" external.linked.project.path="$MODULE_DIR$/../../../util" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="recipes-spring-rest-security" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <output-test url="file://$MODULE_DIR$/../../../../../../../Recipes/task/build/lombok/effective-config/out/test/classes" />
+    <output url="file://$MODULE_DIR$/../../../util/out/production/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../../../../../Recipes/task/build/lombok/effective-config/src/test" />
-    <content url="file://$MODULE_DIR$/../../../../../../../Recipes/task/build/lombok/effective-config/test">
-      <sourceFolder url="file://$MODULE_DIR$/../../../../../../../Recipes/task/build/lombok/effective-config/test" isTestSource="true" />
-    </content>
+    <content url="file://$MODULE_DIR$/../../../util/src" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Recipes.Recipes-task-build-lombok-effective-config.main" />
-    <orderEntry type="module" module-name="Recipes.util.main" />
-    <orderEntry type="module" module-name="Recipes.util.test" production-on-test="" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.projectlombok:lombok:1.18.22" level="project" />
     <orderEntry type="library" name="Gradle: com.github.hyperskill:hs-test:release-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.assertj:assertj-swing-junit:3.17.1" level="project" />
@@ -27,5 +21,4 @@
     <orderEntry type="library" name="Gradle: org.assertj:assertj-core:3.17.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.easytesting:fest-util:1.2.5" level="project" />
   </component>
-  <component name="TestModuleProperties" production-module="Recipes.Recipes-task-build-lombok-effective-config.main" />
 </module>

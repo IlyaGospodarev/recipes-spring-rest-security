@@ -10,13 +10,17 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private long id;
+
     @Column
+    @NotBlank
     @Email(regexp = ".+@.+\\..+", message = "Email is not valid")
     private String email;
+
     @Column
     @Length(min = 8, message = "Password must be at least 8 characters long")
     @NotBlank(message = "Password cannot be blank")

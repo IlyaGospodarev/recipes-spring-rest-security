@@ -1,30 +1,32 @@
 package recipes.authentication;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import recipes.entity.UserDetailsServiceImpl;
+import recipes.service.UserDetailsServiceImpl;
 
+@Configuration
 @EnableWebSecurity
-public class WebSecurityConfigurerImpl extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     private final UserDetailsServiceImpl userDetailsService;
 
-    public WebSecurityConfigurerImpl(RestAuthenticationEntryPoint restAuthenticationEntryPoint,
-                                     UserDetailsServiceImpl userDetailsService) {
+    public WebSecurityConfiguration(RestAuthenticationEntryPoint restAuthenticationEntryPoint,
+                                    UserDetailsServiceImpl userDetailsService) {
         this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
         this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.
-                userDetailsService(userDetailsService).
-                passwordEncoder(getEncoder());
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(getEncoder());
     }
 
     @Override
@@ -42,8 +44,6 @@ public class WebSecurityConfigurerImpl extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .mvcMatchers("/api/register")
                 .permitAll()
-                .mvcMatchers("/api/recipe/")
-                .hasRole("USER")
                 .mvcMatchers("/api/recipe/**")
                 .hasRole("USER");
     }

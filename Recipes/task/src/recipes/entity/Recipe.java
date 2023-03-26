@@ -3,30 +3,45 @@ package recipes.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 public class Recipe {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     @JsonIgnore
     private long id;
+
     @Column
+    @NotBlank
     private String name;
+
     @Column
+    @NotBlank
     private String category;
+
     @Column
     private LocalDateTime date;
+
     @Column
+    @NotBlank
     private String description;
+
     @Column
+    @NotEmpty
     @ElementCollection(targetClass=String.class)
     private List<String> ingredients;
+
     @Column
+    @NotEmpty
     @ElementCollection(targetClass=String.class)
     private List<String> directions;
+
     @JsonIgnore
     @ManyToOne
     private User user;

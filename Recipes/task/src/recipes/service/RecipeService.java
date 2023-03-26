@@ -4,13 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import recipes.entity.Recipe;
+import recipes.entity.User;
 import recipes.repository.RecipeRepository;
 import recipes.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 @Service
@@ -25,37 +25,25 @@ public class RecipeService {
     }
 
     public ResponseEntity<Recipe> getRecipe(long id) {
-        if (!recipeRepository.existsById(id)) {
-            return ResponseEntity.notFound()
-                    .build();
-        }
-
-        Optional<Recipe> recipe = recipeRepository.findById(id);
-
-        return recipe.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound()
-                        .build());
+        return recipeRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Map> addRecipe(String username, Recipe recipe) {
-        if (isValidRecipeRequest(recipe)) {
-            Recipe createRecipe = new Recipe(
-                    recipe.getName(),
-                    recipe.getCategory(),
-                    LocalDateTime.now(),
-                    recipe.getDescription(),
-                    recipe.getIngredients(),
-                    recipe.getDirections(),
-                    userRepository.findByEmailIgnoreCase(username));
+    public Map<String, Long> addRecipe(String username, Recipe recipe) {
+        User user = userRepository.findByEmailIgnoreCase(username);
+        Recipe createRecipe = new Recipe(
+                recipe.getName(),
+                recipe.getCategory(),
+                LocalDateTime.now(),
+                recipe.getDescription(),
+                recipe.getIngredients(),
+                recipe.getDirections(),
+                user);
 
-            recipeRepository.save(createRecipe);
+        Recipe save = recipeRepository.save(createRecipe);
 
-            return ResponseEntity.ok()
-                    .body(Map.of("id", createRecipe.getId()));
-        } else {
-            return ResponseEntity.badRequest()
-                    .build();
-        }
+        return Map.of("id", save.getId());
     }
 
     public ResponseEntity<Recipe> deleteRecipe(String username, long id) {
@@ -94,25 +82,19 @@ public class RecipeService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        if (isValidRecipeRequest(recipe)) {
+        updateRecipe.setName(recipe.getName());
+        updateRecipe.setCategory(recipe.getCategory());
+        updateRecipe.setDescription(recipe.getDescription());
+        updateRecipe.setIngredients(recipe.getIngredients());
+        updateRecipe.setDirections(recipe.getDirections());
 
-            updateRecipe.setName(recipe.getName());
-            updateRecipe.setCategory(recipe.getCategory());
-            updateRecipe.setDescription(recipe.getDescription());
-            updateRecipe.setIngredients(recipe.getIngredients());
-            updateRecipe.setDirections(recipe.getDirections());
+        recipeRepository.save(updateRecipe);
 
-            recipeRepository.save(updateRecipe);
-
-            return ResponseEntity.noContent()
-                    .build();
-        } else {
-            return ResponseEntity.badRequest()
-                    .build();
-        }
+        return ResponseEntity.noContent()
+                .build();
     }
 
-    public ResponseEntity<List> getRecipeByParam(String category, String name) {
+    public ResponseEntity<List<Recipe>> getRecipeByParam(String category, String name) {
 
         if (category != null && name != null) {
             return ResponseEntity.badRequest()
@@ -127,31 +109,6 @@ public class RecipeService {
             return ResponseEntity.badRequest()
                     .build();
         }
-    }
-
-    private boolean isValidRecipeRequest(Recipe recipe) {
-        boolean isValidName = recipe.getName() != null
-                && !recipe.getName()
-                .isEmpty()
-                && !recipe.getName()
-                .isBlank();
-        boolean isValidCategory = recipe.getCategory() != null
-                && !recipe.getCategory()
-                .isEmpty()
-                && !recipe.getCategory()
-                .isBlank();
-        boolean isValidDescription = recipe.getDescription() != null
-                && !recipe.getDescription()
-                .isEmpty()
-                && !recipe.getDescription()
-                .isBlank();
-        boolean isValidIngredients = recipe.getIngredients() != null
-                && !recipe.getIngredients()
-                .isEmpty();
-        boolean isValidDirections = recipe.getDirections() != null
-                && !recipe.getDirections()
-                .isEmpty();
-        return isValidName && isValidCategory && isValidDescription && isValidIngredients && isValidDirections;
     }
 }
 

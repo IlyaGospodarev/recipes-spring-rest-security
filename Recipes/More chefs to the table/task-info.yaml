@@ -1129,9 +1129,6 @@ files:
 - name: src/recipes/entity/UserDetailsImpl.java
   visible: true
   learner_created: true
-- name: src/recipes/entity/UserDetailsServiceImpl.java
-  visible: true
-  learner_created: true
 - name: src/recipes/repository/UserRepository.java
   visible: true
   learner_created: true
@@ -1141,7 +1138,16 @@ files:
 - name: src/recipes/authentication/RestAuthenticationEntryPoint.java
   visible: true
   learner_created: true
-- name: src/recipes/authentication/WebSecurityConfigurerImpl.java
+- name: src/recipes/controller/LoginController.java
+  visible: true
+  learner_created: true
+- name: src/recipes/authentication/WebSecurityConfiguration.java
+  visible: true
+  learner_created: true
+- name: src/recipes/service/UserDetailsServiceImpl.java
+  visible: true
+  learner_created: true
+- name: src/recipes/controller/ExceptionControllerAdvice.java
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/13092#comment

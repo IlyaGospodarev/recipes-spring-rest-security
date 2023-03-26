@@ -9,8 +9,8 @@ import recipes.repository.UserRepository;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -19,19 +19,14 @@ public class UserService {
 
     public ResponseEntity<String> register(User user) {
 
-        if (userRepository.findByEmailIgnoreCase(user.getEmail()) != null) {
+        if (userRepository.existsByEmailIgnoreCase(user.getEmail())) {
             return ResponseEntity.badRequest().body("User already exists");
         }
 
-        if (isValidRegistrationRequest(user)) {
-            User createUser = new User(user.getEmail(), user.getPassword());
-            createUser.setPassword(passwordEncoder.encode(createUser.getPassword()));
-            userRepository.save(createUser);
-        }
-        return ResponseEntity.ok().build();
-    }
+        String encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
+        userRepository.save(user);
 
-    private boolean isValidRegistrationRequest(User user) {
-        return user.getEmail() != null && user.getPassword() != null;
+        return ResponseEntity.ok().build();
     }
 }
